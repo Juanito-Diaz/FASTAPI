@@ -109,14 +109,14 @@ def update_movie(id: int, movie: Movie):
             item["year"] = movie.year
             item["rating"] = movie.rating
             item["category"] = movie.category
-            return movie
+            return JSONResponse(content={"message": "Se ha actualizado la película"})
 
 @app.delete("/movies/{id}", tags=["Movies"])
 def delete_movie(id: int):
     for item in movies:
         if item["id"] == id:
             movies.remove(item)
-            return movies
+            return JSONResponse(content={"message": "Se ha eliminado la película"})
 
 """
 def update_movie(
