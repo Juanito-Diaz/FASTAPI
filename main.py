@@ -3,13 +3,26 @@ from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 from typing import Optional
 from fastapi import FastAPI, Body
+from fastapi import FastAPI, Response
+from fastapi.responses import JSONResponse, RedirectResponse
 
+
+"""
 app = FastAPI(
     title="Aprendiendo FASTAPI",
     description="Una API en los primeros pasos",
     version="0.0.1",
 )
+"""
 
+app = FastAPI()
+
+
+@app.get("/portal")
+async def get_portal(teleport: bool = False) -> Response:
+    if teleport:
+        return RedirectResponse(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+    return JSONResponse(content={"message": "Here's your interdimensional portal."})
 
 class Movie(BaseModel):
     id: Optional[int] = None
@@ -64,7 +77,7 @@ def get_movies_by_category(category: str = Query(min_length=5, max_length=15)):
 def create_movie(movie: Movie):
     movies.append(movie.dict())
     print(movies)
-    return movies
+    return JSONResponse(content={"message": "Se ha cargado una nueva película"})
 
 """
 def create_movie(
